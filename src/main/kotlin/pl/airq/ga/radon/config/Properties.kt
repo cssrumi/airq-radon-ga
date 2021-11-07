@@ -3,7 +3,6 @@ package pl.airq.ga.radon.config
 import io.quarkus.runtime.annotations.StaticInitSafe
 import io.smallrye.config.ConfigMapping
 import io.smallrye.config.WithDefault
-import java.time.Duration
 import java.time.temporal.ChronoUnit
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull

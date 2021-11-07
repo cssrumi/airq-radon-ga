@@ -1,0 +1,29 @@
+ga:
+  prediction:
+    time-frame: 24
+    time-unit: HOURS
+  phenotype:
+    maximal-age: 5
+    genotype:
+      gene:
+        min: 0
+        max: 1000
+  evolution:
+    generations: 1000
+
+quarkus:
+  application:
+    name: radon-ga
+
+mp:
+  messaging:
+    incoming:
+      radon-measurements:
+        connector: smallrye-kafka
+        topic: radon.measurements
+        value:
+          deserializer: pl.airq.ga.radon.domain.event.RadonMeasurementEventDeserializer
+        key:
+          deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserialization-failure-handler: LogAndSkipDeserializationFailureHandler
+        key-deserialization-failure-handler: LogAndSkipDeserializationFailureHandler

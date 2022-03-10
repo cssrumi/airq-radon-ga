@@ -5,7 +5,7 @@ import pl.airq.ga.radon.domain.model.phenotype.AirqPhenotype
 
 interface AirqPhenotypeRepository {
     fun save(phenotype: AirqPhenotype): AirqPhenotype
-    fun findByStationId(sensorId: SensorId): Set<AirqPhenotype>?
-    fun findLatestByStationId(sensorId: SensorId): AirqPhenotype?
-    fun findBestByStationId(sensorId: SensorId): AirqPhenotype?
+    fun findAll(sensorId: SensorId): Set<AirqPhenotype>
+    fun findLatest(sensorId: SensorId): AirqPhenotype?
+    fun findBest(sensorId: SensorId): AirqPhenotype?
 }

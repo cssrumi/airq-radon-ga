@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  kafka:
+    command:
+      - redpanda
+      - start
+      - --smp
+      - '1'
+      - --reserve-memory
+      - 0M
+      - --overprovisioned
+      - --node-id
+      - '0'
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://kafka:29092,OUTSIDE://localhost:9092
+    # NOTE: Please use the latest version here!
+    image: docker.vectorized.io/vectorized/redpanda:v21.11.8
+    ports:
+      - 9092:9092
+      - 29092:29092
+
+  producer-api:
+    image: registry.gitlab.com/radon4/producerapi:latest_dev
+    container_name: producer-api
+    ports:
+      - 5000:5000
+    depends_on:
+      - kafka
+
+  grafana-proxy:
+    image: registry.gitlab.com/radon4/grafanaproxy:latest_dev
+    container_name: grafana-proxy
+    ports:
+      - 5010
+    depends_on:
+      - producer-api

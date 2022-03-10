@@ -10,7 +10,7 @@ import io.jenetics.engine.EvolutionStart
 import io.jenetics.util.Factory
 import io.jenetics.util.ISeq
 import org.slf4j.LoggerFactory
-import pl.airq.ga.radon.config.Properties
+import pl.airq.ga.radon.config.GaProperties
 import pl.airq.ga.radon.domain.model.TrainingData
 import pl.airq.ga.radon.domain.model.phenotype.AirqPhenotype
 import pl.airq.ga.radon.domain.port.evolution.EvolutionService
@@ -19,7 +19,7 @@ import pl.airq.ga.radon.domain.port.phenotype.AirqPhenotypeMapper
 internal class JeneticsEvolutionService(
     private val problemEvaluation: ProblemEvaluation<Genotype<DoubleGene>>,
     private val mapper: AirqPhenotypeMapper<Phenotype<DoubleGene, Double>>,
-    properties: Properties
+    properties: GaProperties
 ) : EvolutionService {
     private val min = properties.phenotype().genotype().gene().min()
     private val max = properties.phenotype().genotype().gene().max()

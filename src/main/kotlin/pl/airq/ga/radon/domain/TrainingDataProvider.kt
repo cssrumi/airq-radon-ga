@@ -22,7 +22,6 @@ class TrainingDataProvider(
         )
         val trainingData = TrainingData(sensorId, phenotypeMap.getFields(), predictionConfig)
         val measurements = measurementRepository.findAll(sensorId)
-            ?: throw PhenotypeProcessingException("Measurements for ${sensorId.value} not found")
         for (measurement in measurements) {
             val closest = findClosest(measurement, measurements, withPredictionAfter) ?: continue
             val valueToPredict = phenotypeMap.valueToPredict(closest) ?: continue

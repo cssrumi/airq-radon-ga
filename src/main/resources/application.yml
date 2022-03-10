@@ -15,6 +15,14 @@ quarkus:
   application:
     name: radon-ga
 
+store:
+  type: INFLUX
+
+influx:
+  token: 47pazMObpMOmozX-bhN9sC7bigiJDas9dx1_hyZe4UzsTFJ-Am3vZJF6Im1OHLIqEb0GGmRTnan3B63kKFthRw==
+  org: airq
+  auth-type: TOKEN
+
 mp:
   messaging:
     incoming:

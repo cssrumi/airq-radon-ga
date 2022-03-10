@@ -1,7 +1,7 @@
 package pl.airq.ga.radon.domain
 
 import org.slf4j.LoggerFactory
-import pl.airq.ga.radon.config.Properties
+import pl.airq.ga.radon.config.GaProperties
 import pl.airq.ga.radon.domain.exception.PhenotypeProcessingException
 import pl.airq.ga.radon.domain.model.SensorId
 import pl.airq.ga.radon.domain.model.TrainingData
@@ -16,11 +16,11 @@ class EvolutionServiceFacade(
     private val evolutionService: EvolutionService,
     private val trainingDataService: TrainingDataProvider,
     private val airqPhenotypeRepository: AirqPhenotypeRepository,
-    properties: Properties
+    properties: GaProperties
 ) {
     private val timeFrame: Duration = createTimeFrame(properties.prediction())
 
-    private fun createTimeFrame(props: Properties.Prediction) = Duration.of(props.timeFrame(), props.timeUnit())
+    private fun createTimeFrame(props: GaProperties.Prediction) = Duration.of(props.timeFrame(), props.timeUnit())
 
     fun generateNewPhenotype(sensorId: SensorId): AirqPhenotype? {
         val trainingData: TrainingData = try {
@@ -45,8 +45,8 @@ class EvolutionServiceFacade(
 
     private fun basePhenotypes(sensorId: SensorId): Set<AirqPhenotype> {
         val phenotypes: MutableSet<AirqPhenotype> = HashSet()
-        airqPhenotypeRepository.findBestByStationId(sensorId)?.let(phenotypes::add)
-        airqPhenotypeRepository.findLatestByStationId(sensorId)?.let(phenotypes::add)
+        airqPhenotypeRepository.findBest(sensorId)?.let(phenotypes::add)
+        airqPhenotypeRepository.findLatest(sensorId)?.let(phenotypes::add)
         if (phenotypes.isNotEmpty()) {
             LOGGER.info("Base phenotypes: {}", phenotypes.size)
         } else {

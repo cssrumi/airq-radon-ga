@@ -11,21 +11,14 @@ internal class InMemoryUniqueQueue<T> : UniqueQueue<T> {
 
     @Synchronized
     override fun put(value: T) {
-        if (entrySet.contains(value)) {
-            return
-        }
-
+        if (entrySet.contains(value)) { return }
         entrySet.add(value)
         queue.add(value)
         listeners.forEach { it.invoke(value) }
     }
-
     override fun pop(): T? = queue.removeFirstOrNull()?.also { entrySet.remove(it) }
-
     override fun size(): Int = queue.size
-
     override fun isEmpty(): Boolean = queue.isEmpty()
-
     override fun registerPutListener(listener: (T) -> Unit) = listeners.add(listener).let { }
 
 }

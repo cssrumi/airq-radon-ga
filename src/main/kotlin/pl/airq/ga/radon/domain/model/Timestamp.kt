@@ -4,11 +4,12 @@ import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
-data class Timestamp(val value: Long) : Comparable<Timestamp> {
-    private val instant by lazy { Instant.ofEpochSecond(value) }
+data class Timestamp(val seconds: Long) : Comparable<Timestamp> {
+    private val instant by lazy { Instant.ofEpochSecond(seconds) }
 
     fun toInstant(): Instant = instant
     fun toOffsetDateTime(): OffsetDateTime = OffsetDateTime.ofInstant(toInstant(), ZoneOffset.UTC)
+    fun toMillis(): Long = seconds * 1000
 
     companion object Factory {
         fun from(offsetDateTime: OffsetDateTime): Timestamp {
@@ -17,7 +18,11 @@ data class Timestamp(val value: Long) : Comparable<Timestamp> {
         fun from(instant: Instant): Timestamp {
             return Timestamp(instant.epochSecond)
         }
+
+        fun now(): Timestamp {
+            return from(Instant.now())
+        }
     }
 
-    override fun compareTo(other: Timestamp): Int = value.compareTo(other.value)
+    override fun compareTo(other: Timestamp): Int = seconds.compareTo(other.seconds)
 }

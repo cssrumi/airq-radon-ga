@@ -1,7 +1,9 @@
 package pl.airq.ga.radon.adapters.measurement
 
-import pl.airq.ga.radon.adapters.store.InMemoryStore
 import pl.airq.ga.radon.domain.model.GeneratePhenotypeTask
+import pl.airq.ga.radon.domain.model.Measurement
+import pl.airq.ga.radon.domain.model.SensorId
+import pl.airq.ga.radon.domain.port.Store
 import pl.airq.ga.radon.domain.port.UniqueQueue
 import pl.airq.ga.radon.domain.port.measurement.MeasurementListener
 import pl.airq.ga.radon.domain.port.measurement.MeasurementRepository
@@ -15,15 +17,16 @@ class MeasurementConfiguration {
 
     @Produces
     @ApplicationScoped
-    fun measurementRepository(): MeasurementRepository = StoreMeasurementRepository(InMemoryStore())
+    fun measurementRepository(store: Store<SensorId, Measurement>): MeasurementRepository =
+        StoreMeasurementRepository(store)
 
     @Produces
     @Singleton
     fun phenotypeTaskCreatorMeasurementListener(taskQueue: UniqueQueue<GeneratePhenotypeTask>)
-    : MeasurementListener = PhenotypeTaskCreatorMeasurementListener(taskQueue)
+            : MeasurementListener = PhenotypeTaskCreatorMeasurementListener(taskQueue)
 
     @Produces
     @Singleton
     fun saveMeasurementListener(measurementRepository: MeasurementRepository)
-    : MeasurementListener = SaveMeasurementListener(measurementRepository)
+            : MeasurementListener = SaveMeasurementListener(measurementRepository)
 }

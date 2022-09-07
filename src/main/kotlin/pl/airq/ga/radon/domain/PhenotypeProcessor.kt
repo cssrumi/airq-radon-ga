@@ -30,7 +30,7 @@ class PhenotypeProcessor(
     private fun startExecution() = executor.submit { processQueue() }
 
     @PreDestroy
-    fun close() { executor.shutdown() }
+    fun close() = executor.shutdown()
 
     private fun processQueue() {
         if (isProcessing.compareAndExchange(false, true)) {

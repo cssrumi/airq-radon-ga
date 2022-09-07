@@ -1,6 +1,5 @@
 package pl.airq.ga.radon.domain.model
 
-import java.util.ArrayList
 import java.util.stream.Stream
 
 class TrainingData constructor(
@@ -23,3 +22,5 @@ class TrainingData constructor(
         rows = ArrayList()
     }
 }
+
+class TrainingDataRow(val timestamp: Timestamp, val values: FloatArray, val expectedValue: Float)

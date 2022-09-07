@@ -1,7 +1,7 @@
 package pl.airq.ga.radon.domain.model.phenotype
 
 import pl.airq.ga.radon.domain.exception.PhenotypeMappingException
-import pl.airq.ga.radon.isNumber
+import pl.airq.ga.radon.infrastructure.util.isNumber
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties

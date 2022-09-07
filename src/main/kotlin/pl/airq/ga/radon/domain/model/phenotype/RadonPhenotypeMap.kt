@@ -2,7 +2,7 @@ package pl.airq.ga.radon.domain.model.phenotype
 
 import pl.airq.ga.radon.domain.exception.PhenotypeProcessingException
 import pl.airq.ga.radon.domain.model.Measurement
-import pl.airq.ga.radon.isNumber
+import pl.airq.ga.radon.infrastructure.util.isNumber
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
@@ -11,7 +11,7 @@ class RadonPhenotypeMap private constructor(properties: List<KProperty1<Measurem
 
     companion object Factory {
         private val DEFAULT_MEASUREMENT_FIELDS = listOf("radon", "pressure")
-        private const val FIELD = "radon"
+        const val FIELD = "radon"
 
         fun create(): RadonPhenotypeMap = withFields(DEFAULT_MEASUREMENT_FIELDS)
 

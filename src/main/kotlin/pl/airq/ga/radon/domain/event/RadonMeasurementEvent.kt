@@ -18,5 +18,5 @@ data class RadonMeasurementEvent(
     @JsonDeserialize(using = SensorIdDeserializer::class)
     val sensorId: SensorId
 ) {
-    fun toMeasurement() : Measurement = Measurement(sensorId, radon, pressure, timestamp)
+    fun toMeasurement() = Measurement(sensorId, radon, pressure, timestamp)
 }

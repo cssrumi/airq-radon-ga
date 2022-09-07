@@ -1,11 +1,9 @@
 package pl.airq.ga.radon.domain.model.phenotype
 
 import io.quarkus.runtime.annotations.RegisterForReflection
-import java.time.OffsetDateTime
-import pl.airq.ga.radon.domain.model.SensorId
 import pl.airq.ga.radon.domain.model.PredictionConfig
+import pl.airq.ga.radon.domain.model.SensorId
 import pl.airq.ga.radon.domain.model.Timestamp
-import java.util.HashMap
 
 @RegisterForReflection
 data class AirqPhenotype(

@@ -4,7 +4,9 @@ import pl.airq.ga.radon.domain.model.GeneratePhenotypeTask
 import pl.airq.ga.radon.domain.model.Measurement
 import pl.airq.ga.radon.domain.port.UniqueQueue
 import pl.airq.ga.radon.domain.port.measurement.MeasurementListener
+import javax.enterprise.context.ApplicationScoped
 
+@ApplicationScoped
 internal class PhenotypeTaskCreatorMeasurementListener(
     private val taskQueue: UniqueQueue<GeneratePhenotypeTask>
 ) : MeasurementListener {

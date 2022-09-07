@@ -2,7 +2,9 @@ package pl.airq.ga.radon.adapters.queue
 
 import pl.airq.ga.radon.domain.port.UniqueQueue
 import java.util.*
+import javax.inject.Singleton
 
+@Singleton
 internal class InMemoryUniqueQueue<T> : UniqueQueue<T> {
 
     private val entrySet = mutableSetOf<T>()
@@ -16,6 +18,7 @@ internal class InMemoryUniqueQueue<T> : UniqueQueue<T> {
         queue.add(value)
         listeners.forEach { it.invoke(value) }
     }
+
     override fun pop(): T? = queue.removeFirstOrNull()?.also { entrySet.remove(it) }
     override fun size(): Int = queue.size
     override fun isEmpty(): Boolean = queue.isEmpty()

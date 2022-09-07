@@ -4,6 +4,7 @@ import io.quarkus.runtime.annotations.StaticInitSafe
 import io.smallrye.config.ConfigMapping
 import io.smallrye.config.WithDefault
 import java.time.temporal.ChronoUnit
+import java.util.*
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Positive
@@ -14,6 +15,7 @@ interface GaProperties {
     @NotNull fun prediction(): Prediction
     @NotNull fun phenotype(): Phenotype
     @NotNull fun evolution(): Evolution
+    @NotNull fun limits(): Limits
 
     interface Prediction {
         @NotNull fun timeUnit(): ChronoUnit
@@ -37,6 +39,12 @@ interface GaProperties {
     interface Evolution {
         @NotNull @Positive @WithDefault("1000") fun generations(): Long
         @NotNull @Positive @WithDefault("100") fun populationSize(): Int
+    }
+
+    interface Limits {
+        fun maxRecords(): Optional<Long>
+        @NotNull fun timeUnit(): ChronoUnit
+        @NotNull @Min(1) fun sinceLast(): Long
     }
 
 }

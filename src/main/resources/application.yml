@@ -10,18 +10,20 @@ ga:
         max: 1000
   evolution:
     generations: 1000
+  limits:
+    since-last: 1825 # 5 YEARS
+    time-unit: DAYS
 
 quarkus:
   application:
     name: radon-ga
+  mongodb:
+    database: radon-ga
+    connection-string: mongodb://root:example@localhost:27017
 
-store:
-  type: INFLUX
-
-influx:
-  token: 47pazMObpMOmozX-bhN9sC7bigiJDas9dx1_hyZe4UzsTFJ-Am3vZJF6Im1OHLIqEb0GGmRTnan3B63kKFthRw==
-  org: airq
-  auth-type: TOKEN
+kafka:
+  bootstrap:
+    servers: localhost:9092
 
 mp:
   messaging:

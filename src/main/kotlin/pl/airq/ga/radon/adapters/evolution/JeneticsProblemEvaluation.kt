@@ -23,7 +23,7 @@ internal class JeneticsProblemEvaluation : ProblemEvaluation<Genotype<DoubleGene
                 }
                 abs(result - row.expectedValue)
             }
-            .sum()
+            .sum().div(trainingData.size())
     }
 
     companion object {

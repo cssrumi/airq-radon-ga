@@ -6,8 +6,9 @@ import pl.airq.ga.radon.domain.exception.PhenotypeProcessingException
 import pl.airq.ga.radon.domain.model.SensorId
 import pl.airq.ga.radon.domain.model.TrainingData
 import pl.airq.ga.radon.domain.model.phenotype.AirqPhenotype
-import pl.airq.ga.radon.domain.port.phenotype.AirqPhenotypeRepository
 import pl.airq.ga.radon.domain.port.evolution.EvolutionService
+import pl.airq.ga.radon.domain.port.phenotype.AirqPhenotypeRepository
+import pl.airq.ga.radon.infrastructure.metrics.LogMetrics
 import java.time.Duration
 import javax.enterprise.context.ApplicationScoped
 
@@ -22,6 +23,7 @@ class EvolutionServiceFacade(
 
     private fun createTimeFrame(props: GaProperties.Prediction) = Duration.of(props.timeFrame(), props.timeUnit())
 
+    @LogMetrics
     fun generateNewPhenotype(sensorId: SensorId): AirqPhenotype? {
         val trainingData: TrainingData = try {
             trainingDataService.provide(sensorId, timeFrame)

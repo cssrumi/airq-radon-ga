@@ -22,12 +22,12 @@ services:
       - 9092:9092
       - 29092:29092
 
-  nexus:
-    image: sonatype/nexus
-    volumes:
-      - "nexus-data:/sonatype-work"
-    ports:
-      - 8082:8081
+  #  nexus:
+  #    image: sonatype/nexus
+  #    volumes:
+  #      - "nexus-data:/sonatype-work"
+  #    ports:
+  #      - 8082:8081
 
   mongo:
     image: mongo
@@ -53,16 +53,19 @@ services:
     container_name: producer-api
     ports:
       - 5000:5000
-    depends_on:
-      - kafka
+  #    depends_on:
+  #      - kafka
 
   grafana-proxy:
     image: registry.gitlab.com/radon4/grafanaproxy:latest_dev
     container_name: grafana-proxy
+    environment:
+      ProducerApiAdress_grafana: "http://producer-api:5000/Grafana"
+      ProducerApiAdress_GrafanaLastUpdate: "http://producer-api:5000/GrafanaLastUpdate"
     ports:
       - 5010
-    depends_on:
-      - producer-api
+#    depends_on:
+#      - producer-api
 
 volumes:
   nexus-data: { }

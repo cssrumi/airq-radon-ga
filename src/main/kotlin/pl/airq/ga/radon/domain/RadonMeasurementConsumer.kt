@@ -7,6 +7,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import pl.airq.ga.radon.config.Topics
 import pl.airq.ga.radon.domain.event.RadonMeasurementEvent
+import pl.airq.ga.radon.domain.event.RadonMeasurementPayload
 import pl.airq.ga.radon.domain.port.measurement.MeasurementListener
 import java.util.concurrent.CompletionStage
 import javax.enterprise.inject.Instance
@@ -21,10 +22,14 @@ class RadonMeasurementConsumer(
     @OnOverflow(value = OnOverflow.Strategy.BUFFER, bufferSize = Topics.RADON_MEASUREMENTS_BUFFER_SIZE)
     @Incoming(Topics.RADON_MEASUREMENTS)
     fun consume(message: Message<RadonMeasurementEvent>): CompletionStage<Void> {
-        val measurement = message.payload.toMeasurement()
+        message.payload.payload?.let { processPayload(it) }
+        return message.ack()
+    }
+
+    private fun processPayload(payload: RadonMeasurementPayload) {
+        val measurement = payload.toMeasurement()
         LOGGER.info("RadonMeasurementEvent for sensor: ${measurement.sensorId.value} consumed")
         listeners.forEach { it.listen(measurement) }
-        return message.ack()
     }
 
     companion object {

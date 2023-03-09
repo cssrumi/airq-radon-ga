@@ -30,7 +30,7 @@ mp:
     incoming:
       radon-measurements:
         connector: smallrye-kafka
-        topic: RadonMeasurement
+        topic: RadonMeasurements
         value:
           deserializer: pl.airq.ga.radon.domain.event.RadonMeasurementEventDeserializer
         key:

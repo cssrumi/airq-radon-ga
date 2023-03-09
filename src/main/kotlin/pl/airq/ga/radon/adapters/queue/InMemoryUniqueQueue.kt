@@ -2,9 +2,7 @@ package pl.airq.ga.radon.adapters.queue
 
 import pl.airq.ga.radon.domain.port.UniqueQueue
 import java.util.*
-import javax.inject.Singleton
 
-@Singleton
 internal class InMemoryUniqueQueue<T> : UniqueQueue<T> {
 
     private val entrySet = mutableSetOf<T>()

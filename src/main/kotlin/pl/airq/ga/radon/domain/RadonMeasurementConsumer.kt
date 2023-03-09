@@ -10,10 +10,10 @@ import pl.airq.ga.radon.domain.event.RadonMeasurementEvent
 import pl.airq.ga.radon.domain.event.RadonMeasurementPayload
 import pl.airq.ga.radon.domain.port.measurement.MeasurementListener
 import java.util.concurrent.CompletionStage
+import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.inject.Instance
-import javax.inject.Singleton
 
-@Singleton
+@ApplicationScoped
 class RadonMeasurementConsumer(
     listenerInstance: Instance<MeasurementListener>
 ) {
@@ -23,6 +23,7 @@ class RadonMeasurementConsumer(
     @Incoming(Topics.RADON_MEASUREMENTS)
     fun consume(message: Message<RadonMeasurementEvent>): CompletionStage<Void> {
         message.payload.payload?.let { processPayload(it) }
+            ?: LOGGER.info("Unhandled measurement event...")
         return message.ack()
     }
 

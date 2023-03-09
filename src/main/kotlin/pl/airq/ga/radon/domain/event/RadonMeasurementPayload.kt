@@ -10,7 +10,7 @@ import pl.airq.ga.radon.domain.model.Timestamp
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class RadonMeasurementPayload(
     @JsonProperty("time")
-    @JsonDeserialize(using = TimestampDeserializer::class)
+    @JsonDeserialize(using = TimestampIsoDeserializer::class)
     val timestamp: Timestamp,
     val radon: Float,
     val pressure: Float,

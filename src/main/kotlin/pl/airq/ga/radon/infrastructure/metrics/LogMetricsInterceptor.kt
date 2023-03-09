@@ -15,7 +15,7 @@ import javax.interceptor.InvocationContext
 class LogMetricsInterceptor {
 
     @AroundInvoke
-    fun invoke(context: InvocationContext): Any {
+    fun invoke(context: InvocationContext): Any? {
         val start = Instant.now()
         val annotation = context.method.getAnnotation(LogMetrics::class.java)
         val methodName = annotation.named.ifEmpty { context.method.name }

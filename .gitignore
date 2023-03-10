@@ -41,3 +41,4 @@ nb-configuration.xml
 #.mvn
 #mvnw
 #mvnw.cmd
+log/

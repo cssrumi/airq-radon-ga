@@ -11,6 +11,7 @@ ga:
   evolution:
     generations: 1000
   limits:
+    max-records: 10000
     since-last: 1825 # 5 YEARS
     time-unit: DAYS
 
@@ -23,11 +24,11 @@ quarkus:
     max-pool-size: 4
   log:
     console:
-      format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{1.}] (%t) %s%e%n"
+      format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{1.}] (%t) %X{SensorId} %s%e%n"
     file:
       enable: true
       path: log/radon-ga.log
-      format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{1.}] (%t) %s%e%n"
+      format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{1.}] (%t) %X{SensorId} %s%e%n"
 kafka:
   bootstrap:
     servers: localhost:9092

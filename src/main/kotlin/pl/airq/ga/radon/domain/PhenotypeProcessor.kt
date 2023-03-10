@@ -2,6 +2,7 @@ package pl.airq.ga.radon.domain
 
 import io.quarkus.runtime.Startup
 import pl.airq.ga.radon.domain.model.GeneratePhenotypeTask
+import pl.airq.ga.radon.domain.model.SensorId
 import pl.airq.ga.radon.domain.port.UniqueQueue
 import javax.inject.Singleton
 
@@ -15,4 +16,6 @@ private class PhenotypeProcessor(
     override fun process(element: GeneratePhenotypeTask) {
         evolutionServiceFacade.generateNewPhenotype(element.sensorId)
     }
+
+    override fun sensorId(element: GeneratePhenotypeTask): SensorId = element.sensorId
 }

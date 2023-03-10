@@ -15,4 +15,6 @@ private class PredictionProcessor(
     override fun process(element: SensorId) {
         predictionService.predict(element)
     }
+
+    override fun sensorId(element: SensorId): SensorId = element
 }

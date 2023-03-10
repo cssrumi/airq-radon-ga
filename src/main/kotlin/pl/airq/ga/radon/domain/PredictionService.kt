@@ -30,7 +30,7 @@ class PredictionService(
         val prediction = Prediction(Timestamp.now(), predictionValue, predictionConfig, sensorId)
         predictionRepository.save(prediction)
 
-        LOGGER.info("New prediction created for: {} with value: ", sensorId.value, predictionValue)
+        LOGGER.info("New prediction created: {}", predictionValue)
         return prediction
     }
 

@@ -3,7 +3,10 @@ package pl.airq.ga.radon.domain
 import com.google.common.util.concurrent.ThreadFactoryBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.slf4j.MDC
+import pl.airq.ga.radon.domain.model.SensorId
 import pl.airq.ga.radon.domain.port.UniqueQueue
+import pl.airq.ga.radon.infrastructure.LoggingConstants
 import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.annotation.PostConstruct
@@ -42,12 +45,16 @@ internal abstract class QueueProcessor<T>(
     }
 
     abstract fun process(element: T)
+    abstract fun sensorId(element: T): SensorId
 
     private fun processElement(element: T) {
         try {
+            MDC.put(LoggingConstants.SENSOR_ID, sensorId(element).value)
             process(element)
         } catch (ex: RuntimeException) {
             LOGGER.error("{} processing error: {}", queue.name(), ex.message, ex)
+        } finally {
+            MDC.remove(LoggingConstants.SENSOR_ID)
         }
     }
 
@@ -59,7 +66,7 @@ internal abstract class QueueProcessor<T>(
     }
 
     private fun namedThreadFactory(): ThreadFactory {
-        return ThreadFactoryBuilder().setNameFormat("${queue.name().lowercase()}-processor-%d").build()
+        return ThreadFactoryBuilder().setNameFormat("${queue.name().lowercase()}-processor").build()
     }
 
     companion object {

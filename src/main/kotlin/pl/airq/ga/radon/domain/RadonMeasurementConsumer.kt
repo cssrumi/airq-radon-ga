@@ -5,10 +5,12 @@ import org.eclipse.microprofile.reactive.messaging.Incoming
 import org.eclipse.microprofile.reactive.messaging.OnOverflow
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.slf4j.MDC
 import pl.airq.ga.radon.config.Topics
 import pl.airq.ga.radon.domain.event.RadonMeasurementEvent
 import pl.airq.ga.radon.domain.event.RadonMeasurementPayload
 import pl.airq.ga.radon.domain.port.measurement.MeasurementListener
+import pl.airq.ga.radon.infrastructure.LoggingConstants
 import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.inject.Instance
 
@@ -27,9 +29,14 @@ class RadonMeasurementConsumer(
     }
 
     private fun processPayload(payload: RadonMeasurementPayload) {
-        val measurement = payload.toMeasurement()
-        LOGGER.info("RadonMeasurementEvent for sensor: ${measurement.sensorId.value} consumed")
-        listeners.forEach { it.listen(measurement) }
+        try {
+            val measurement = payload.toMeasurement()
+            MDC.put(LoggingConstants.SENSOR_ID, measurement.sensorId.value)
+            LOGGER.info("RadonMeasurementEvent consumed")
+            listeners.forEach { it.listen(measurement) }
+        } finally {
+            MDC.remove(LoggingConstants.SENSOR_ID)
+        }
     }
 
     companion object {

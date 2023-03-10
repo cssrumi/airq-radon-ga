@@ -42,7 +42,7 @@ interface GaProperties {
     }
 
     interface Limits {
-        fun maxRecords(): Optional<Long>
+        fun maxRecords(): Optional<Int>
         @NotNull fun timeUnit(): ChronoUnit
         @NotNull @Min(1) fun sinceLast(): Long
     }

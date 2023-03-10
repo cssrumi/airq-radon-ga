@@ -1,5 +1,6 @@
 package pl.airq.ga.radon.infrastructure.mongo
 
+import io.quarkus.runtime.annotations.RegisterForReflection
 import org.bson.BsonReader
 import org.bson.BsonWriter
 import org.bson.codecs.Codec
@@ -11,8 +12,10 @@ import org.bson.codecs.configuration.CodecRegistry
 import org.bson.codecs.jsr310.InstantCodec
 import pl.airq.ga.radon.domain.model.SensorId
 import pl.airq.ga.radon.domain.model.Timestamp
+import javax.inject.Singleton
 
-class SensorIdCodec : Codec<SensorId> {
+@RegisterForReflection
+open class SensorIdCodec : Codec<SensorId> {
     private val stringCodec = StringCodec()
 
     override fun encode(writer: BsonWriter, sensorId: SensorId, encoderContext: EncoderContext) {
@@ -27,13 +30,15 @@ class SensorIdCodec : Codec<SensorId> {
     override fun getEncoderClass() = SensorId::class.java
 }
 
-class SensorIdCodecProvider : CodecProvider {
+@Singleton
+open class SensorIdCodecProvider : CodecProvider {
     override fun <T> get(clazz: Class<T>, registry: CodecRegistry): Codec<T>? {
         return if (clazz == SensorId::class.java) SensorIdCodec() as Codec<T> else null
     }
 }
 
-class TimestampCodec : Codec<Timestamp> {
+@RegisterForReflection
+open class TimestampCodec : Codec<Timestamp> {
     private val instantCodec = InstantCodec()
 
     override fun encode(writer: BsonWriter, timestamp: Timestamp, encoderContext: EncoderContext) {
@@ -48,7 +53,8 @@ class TimestampCodec : Codec<Timestamp> {
     override fun getEncoderClass() = Timestamp::class.java
 }
 
-class TimestampCodecProvider : CodecProvider {
+@Singleton
+open class TimestampCodecProvider : CodecProvider {
     override fun <T> get(clazz: Class<T>, registry: CodecRegistry): Codec<T>? {
         return if (clazz == Timestamp::class.java) TimestampCodec() as Codec<T> else null
     }

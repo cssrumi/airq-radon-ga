@@ -9,7 +9,7 @@ import javax.enterprise.inject.Produces
 import javax.inject.Singleton
 
 data class Limits(
-    val maxRecords: Long?,
+    val maxRecords: Int?,
     val sinceLast: Duration?
 ) {
 

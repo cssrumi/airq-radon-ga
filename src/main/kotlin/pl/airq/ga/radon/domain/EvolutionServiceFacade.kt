@@ -25,6 +25,7 @@ class EvolutionServiceFacade(
 
     @LogMetrics
     fun generateNewPhenotype(sensorId: SensorId): AirqPhenotype? {
+        LOGGER.info("Generating new phenotype for sensor: {}", sensorId.value)
         val trainingData: TrainingData = try {
             trainingDataService.provide(sensorId, timeFrame)
         } catch (e: PhenotypeProcessingException) {
@@ -36,7 +37,7 @@ class EvolutionServiceFacade(
             return null
         }
 
-        LOGGER.info("{} created for Sensor: {}.", trainingData, sensorId.value)
+        LOGGER.info("Training data ({} rows) created for Sensor: {}.", trainingData.size(), sensorId.value)
         val basePhenotypes: Set<AirqPhenotype> = basePhenotypes(sensorId)
         val newPhenotype: AirqPhenotype = evolutionService.compute(trainingData, basePhenotypes)
         LOGGER.info("New phenotype computed with fitness: {}", newPhenotype.fitness)

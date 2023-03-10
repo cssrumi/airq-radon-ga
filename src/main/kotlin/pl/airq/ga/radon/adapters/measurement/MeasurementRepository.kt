@@ -23,7 +23,7 @@ internal class MongoMeasurementRepository(
     override fun findAll(id: SensorId, limits: Limits): List<Measurement> {
         val since = limits.sinceLast?.let { Instant.now().minus(it) }
         val results = since?.let { findSince(id, it) } ?: find(id)
-        return results.listWithLimit(limits.maxRecords?.toInt()).map { it.toMeasurement() }
+        return results.listWithLimit(limits.maxRecords).map { it.toMeasurement() }
     }
 
     private fun findSince(id: SensorId, since: Instant) = repository

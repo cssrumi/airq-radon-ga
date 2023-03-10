@@ -7,5 +7,6 @@ interface UniqueQueue<T> {
     fun size(): Int
     fun isEmpty(): Boolean
     fun registerPutListener(listener: (T) -> Unit)
+    fun name(): String
 
 }

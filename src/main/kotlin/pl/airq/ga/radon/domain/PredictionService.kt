@@ -37,7 +37,8 @@ class PredictionService(
     private fun createPrediction(airqPhenotype: AirqPhenotype, measurement: Measurement): Double {
         return airqPhenotype.fields
             .map { getValue(measurement, it) }
-            .zip(airqPhenotype.values).sumOf { it.first * it.second }
+            .zip(airqPhenotype.values)
+            .sumOf { it.first * it.second }
     }
 
     private fun getValue(measurement: Measurement, field: String): Double {

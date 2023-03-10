@@ -20,6 +20,7 @@ quarkus:
   mongodb:
     database: radon-ga
     connection-string: mongodb://root:example@localhost:27017
+    max-pool-size: 4
 
 kafka:
   bootstrap:

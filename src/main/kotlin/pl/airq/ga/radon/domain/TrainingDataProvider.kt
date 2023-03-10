@@ -1,5 +1,7 @@
 package pl.airq.ga.radon.domain
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import pl.airq.ga.radon.domain.model.*
 import pl.airq.ga.radon.domain.model.phenotype.RadonPhenotypeMap
 import pl.airq.ga.radon.domain.port.measurement.MeasurementRepository
@@ -19,6 +21,7 @@ class TrainingDataProvider(
         val phenotypeMap = RadonPhenotypeMap.create()
         val trainingData = TrainingData(sensorId, phenotypeMap.getFields(), predictionConfig)
         val measurements = measurementRepository.findAll(sensorId, limits)
+        LOGGER.info("Measurements found: {}", measurements.size)
         for (measurement in measurements) {
             val closest = findClosest(measurement, measurements, withPredictionAfter) ?: continue
             val valueToPredict = phenotypeMap.valueToPredict(closest) ?: continue
@@ -38,4 +41,9 @@ class TrainingDataProvider(
             .filter { it.timestamp.toInstant().isBefore(max) }
             .let { if (it.isEmpty()) return null else it[it.size / 2] } // TODO: replace else block
     }
+
+    companion object {
+        private val LOGGER: Logger = LoggerFactory.getLogger(TrainingDataProvider::class.java)
+    }
+
 }

@@ -12,10 +12,10 @@ class QueueConfiguration {
 
     @Produces
     @Singleton
-    fun phenotypeTaskQueue(): UniqueQueue<GeneratePhenotypeTask> = InMemoryUniqueQueue()
+    fun phenotypeTaskQueue(): UniqueQueue<GeneratePhenotypeTask> = InMemoryUniqueQueue("Phenotype")
 
     @Produces
     @Singleton
-    fun predictionQueue(): UniqueQueue<SensorId> = InMemoryUniqueQueue()
+    fun predictionQueue(): UniqueQueue<SensorId> = InMemoryUniqueQueue("Prediction")
 
 }

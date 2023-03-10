@@ -41,7 +41,7 @@ class PredictionService(
     }
 
     private fun getValue(measurement: Measurement, field: String): Double {
-        return measurementValueExtractor.extractValue(measurement, field).toDouble()
+        return measurementValueExtractor.extractNumber(measurement, field).toDouble()
     }
 
     companion object {

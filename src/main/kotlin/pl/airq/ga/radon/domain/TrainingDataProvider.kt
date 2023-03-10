@@ -21,7 +21,7 @@ class TrainingDataProvider(
         val phenotypeMap = RadonPhenotypeMap.create()
         val trainingData = TrainingData(sensorId, phenotypeMap.getFields(), predictionConfig)
         val measurements = measurementRepository.findAll(sensorId, limits)
-        LOGGER.info("Measurements found: {}", measurements.size)
+        LOGGER.info("Measurements found: {} for sensor: ", measurements.size, sensorId.value)
         for (measurement in measurements) {
             val closest = findClosest(measurement, measurements, withPredictionAfter) ?: continue
             val valueToPredict = phenotypeMap.valueToPredict(closest) ?: continue

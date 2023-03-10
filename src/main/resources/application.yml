@@ -21,7 +21,12 @@ quarkus:
     database: radon-ga
     connection-string: mongodb://root:example@localhost:27017
     max-pool-size: 4
-
+  log:
+    console:
+      format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{1.}] (%t) %s%e%n"
+    file:
+      enable: true
+      path: log\radon-ga.log
 kafka:
   bootstrap:
     servers: localhost:9092

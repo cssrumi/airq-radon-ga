@@ -9,14 +9,14 @@ import pl.airq.ga.radon.domain.port.phenotype.AirqPhenotypeRepository
 import pl.airq.ga.radon.domain.port.prediction.PredictionRepository
 import java.time.Duration
 import javax.enterprise.context.ApplicationScoped
-import kotlin.reflect.full.memberProperties
 
 @ApplicationScoped
 class PredictionService(
     private val predictionRepository: PredictionRepository,
     private val measurementRepository: MeasurementRepository,
     private val phenotypeRepository: AirqPhenotypeRepository,
-    private val predictionConfig: PredictionConfig
+    private val predictionConfig: PredictionConfig,
+    private val measurementValueExtractor: MeasurementValueExtractor
 ) {
     private val searchBestSince = Duration.ofDays(1)
 
@@ -41,9 +41,7 @@ class PredictionService(
     }
 
     private fun getValue(measurement: Measurement, field: String): Double {
-        val property = Measurement::class.memberProperties.find { it.name == field }!!
-        val value = property.getter.invoke(measurement) as Number
-        return value.toDouble()
+        return measurementValueExtractor.extractValue(measurement, field).toDouble()
     }
 
     companion object {
